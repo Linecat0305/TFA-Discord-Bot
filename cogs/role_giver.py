@@ -153,6 +153,19 @@ class RoleGiver(commands.Cog):
         embed.set_footer(text="如要移除身分組，請再次點擊按鈕")
         await ctx.send(embed=embed, view=self.RoleGiverUI(self.bot, self.real_logger))
 
+    @commands.Cog.listener()
+    async def on_application_command_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            embed = discord.Embed(title="指令冷卻中",
+                                  description=f"這個指令正在冷卻中，請在`{round(error.retry_after)}`秒後再試。",
+                                  color=error_color)
+            await ctx.respond(embed=embed, ephemeral=True)
+        elif isinstance(error, commands.MissingRole):
+            embed = discord.Embed(title="錯誤", description="你沒有權限使用此指令。", color=error_color)
+            await ctx.respond(embed=embed, ephemeral=True)
+        else:
+            raise error
+
 
 def setup(bot):
     bot.add_cog(RoleGiver(bot, bot.logger))
