@@ -137,7 +137,7 @@ class RoleGiver(commands.Cog):
             await interaction.response.send_message(embed=embed, ephemeral=True)
 
     @discord.slash_command(name="role_giver", description="傳送「選取身分組」訊息")
-    @commands.has_permissions(administrator=True)
+    @commands.has_role(1193209412018524180)
     async def role_giver(self, ctx: commands.Context):
         embed = discord.Embed(title="選取身分組", description="請選擇你希望負責的工作，以獲得對應的權限。", color=default_color)
         embed.add_field(name="工程技術組", value="製作模擬賽模擬場地&場地布置、負責周邊小物打印製作", inline=False)
