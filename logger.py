@@ -13,8 +13,6 @@ class CreateLogger:
     def __init__(self):
         super().__init__()
         self.c_logger = self.color_logger()
-        self.a_logger = self.anonymous_logger()
-        logging.addLevelName(25, "ANONYMOUS")
 
     @staticmethod
     def color_logger():
@@ -50,19 +48,6 @@ class CreateLogger:
 
         return logger
 
-    @staticmethod
-    def anonymous_logger():
-        formatter = logging.Formatter(
-            fmt="[%(asctime)s] %(levelname)-8s %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S")
-        logger = logging.getLogger("anonymous_logger")
-        handler = logging.FileHandler("anonymous.log", encoding="utf-8")
-        handler.setLevel(25)
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-
-        return logger
-
     def debug(self, message: str):
         self.c_logger.debug(message)
 
@@ -77,7 +62,3 @@ class CreateLogger:
 
     def critical(self, message: str):
         self.c_logger.critical(message)
-
-    def anonymous(self, message: str):
-        self.c_logger.log(25, message)
-        self.a_logger.log(25, message)
